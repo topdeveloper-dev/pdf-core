@@ -13,13 +13,22 @@ module PDF
     module_function
 
     def real(num)
-      result = format('%.5f', num)
-      result.sub!(/((?<!\.)0)+\z/, '')
-      result
+      if num.is_a?(Integer)
+        num.to_s
+      else
+        result = format('%.5f', num)
+        result.sub!(/((?<!\.)0)+\z/, '')
+        result
+      end
     end
 
     def real_params(array)
-      array.map { |e| real(e) }.join(' ')
+      str = "".dup
+      array.each { |e|
+        str << ' '
+        str << real(e)
+      }
+      str
     end
 
     def utf8_to_utf16(str)
